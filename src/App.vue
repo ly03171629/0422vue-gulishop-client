@@ -1,7 +1,9 @@
 <template>
   <div>
     <Header></Header>
-    <Footer></Footer>
+    <router-view></router-view>
+    <!-- <Footer v-if="$route.path === '/home' || $route.path === '/search'"></Footer> -->
+    <Footer v-if="!$route.meta.isHide"></Footer>
   </div>
 </template>
 
