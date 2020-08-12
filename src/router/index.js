@@ -30,10 +30,6 @@ VueRouter.prototype.replace = function(location,onResolved,onRejected){
 }
 
 
-
-
-
-
 const router = new VueRouter({
   routes
 })
