@@ -42,6 +42,7 @@ instance.interceptors.response.use(
     //默认返回去的是response 也就是我们的响应报文信息  如果我们要拿到数据  response.data去获取
     //现在我们是在返回响应之前把响应直接改成了数据，以后我们拿数据不需要再去.data了
     NProgress.done();
+    // console.log(response.data.data)
     return response.data
   },
   error => {
