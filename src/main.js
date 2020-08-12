@@ -3,6 +3,9 @@ import App from '@/App'
 import router from '@/router'
 //组件三大步： 定义  注册  使用
 
+import TypeNav from '@/components/TypeNav'
+//全局注册TypeNav  因为它是一个公用的组件
+Vue.component('TypeNav',TypeNav)
 
 Vue.config.productionTip = false
 

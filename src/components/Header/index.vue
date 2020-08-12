@@ -68,28 +68,18 @@ export default {
         // 要么不指定params参数   要么传递过去一个undefined 代表什么都没传，不能直接传空串
         // 前提得  params参数可传可不传
 
-
-
-
-
         // path:'/search',
         name:'search',
-        params:{
-          keyword:this.keyword || undefined
-        },
-        query:{
-          keyword:this.keyword.toUpperCase()
-        }
+        // params:{
+        //   keyword:this.keyword || undefined
+        // },
+        // query:{
+        //   keyword:this.keyword.toUpperCase()
+        // }
       }
       // this.$router.push('/search') //字符串 
-      this.$router.push(location).catch(() => {}) //对象
-
-
+      this.$router.push(location) //对象
       //路由传递参数
-
-
-
-
     }
   }
 };
