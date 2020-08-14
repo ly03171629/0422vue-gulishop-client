@@ -27,7 +27,8 @@ export default {
     Rank,
     Floor,
     Brand
-  }
+  },
+  
 }
 </script>
 
