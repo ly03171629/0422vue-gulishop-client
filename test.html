@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    //三点运算符  扩展运算符
+    // 有两个作用： 打包和拆包   （包一般指的是数组，但是拆包也可以拆对象）
+
+    //打包：  数组可以打包，而且只是在函数形参才有，其余都是拆包
+             //对象是没有打包的
+    //用来做函数的不定参传参
+    function add(a,b,...arr){
+      console.log(arr)  //数组
+      console.log( arr instanceof Array) //Object
+    }
+
+    add(10,20,1,2,3,4,5,6,7)
+
+    //拆包：
+    //可以拆数组
+    let arr = [1,2,3,4]
+    let arr1 = [10,20,...arr]
+    console.log(...arr)
+    console.log(arr1)
+
+
+    //可以拆对象
+    //拆对象必须在另一个对象当中去拆，不能随便拆
+    let obj = {
+      name:'zhaoliying',
+      age:33
+    }
+    // console.log(...obj)
+
+    let obj1 = {
+      heihei:'haha',
+      ...obj
+    }
+    console.log(obj1)
+
+
+
+    //解构赋值   针对数组和对象
+    //数组解构 []结构  解构的时候变量名随便
+    //对象解构 {}解构  解构的时候变量名必须和属性名一样
+
+    let persons = [{name:'zhaoliying',age:33},{name:'yangmi',age:34},{}]
+
+    // let var const 
+    // let zly = persons[0]
+    // let b = persons[1]
+    let [zly,b] = persons
+    console.log(zly,b)
+
+
+    let obj2 = {name:'qiwei',age:40}
+
+    // let name = obj2.name
+    // let age = obj2.age
+    let {name,age} = obj2
+    console.log(name,age)
+
+    
+
+
+
+
+  </script>
+</body>
+</html>

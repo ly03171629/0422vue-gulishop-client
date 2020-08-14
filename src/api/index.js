@@ -3,6 +3,9 @@
 import Ajax from '@/ajax/Ajax'  //刚才暴露出去的instance
 
 
+// 路径/api/product/getBaseCategoryList    
+// 请求方式：GET
+// 请求参数：无
 export const reqCategoryList = () => {
   return Ajax({
     url:'/product/getBaseCategoryList',
