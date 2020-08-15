@@ -15,8 +15,10 @@ import '@/api' //为了测试用的
 //组件三大步： 定义  注册  使用
 
 import TypeNav from '@/components/TypeNav'
+import SliderLoop from '@/components/SliderLoop'
 //全局注册TypeNav  因为它是一个公用的组件
 Vue.component('TypeNav',TypeNav)
+Vue.component('SliderLoop',SliderLoop)
 
 Vue.config.productionTip = false
 

@@ -22,25 +22,24 @@
               <img :src="floor.imgUrl" />
             </div>
             <div class="floorBanner">
-              <div class="swiper-container" id="floor2Swiper">
+              <!-- <div class="swiper-container" ref="floor2Swiper">
                 <div class="swiper-wrapper">
-                  <div class="swiper-slide" v-for="(carousel, index) in floor.carouselList" :key="carousel.id">
+                  <div
+                    class="swiper-slide"
+                    v-for="(carousel, index) in floor.carouselList"
+                    :key="carousel.id"
+                  >
                     <img :src="carousel.imgUrl" />
                   </div>
-                  <!-- <div class="swiper-slide">
-                    <img src="./images/floor-1-b02.png" />
-                  </div>
-                  <div class="swiper-slide">
-                    <img src="./images/floor-1-b03.png" />
-                  </div> -->
-                </div>
+                </div> -->
                 <!-- 如果需要分页器 -->
-                <div class="swiper-pagination"></div>
+                <!-- <div class="swiper-pagination"></div> -->
 
                 <!-- 如果需要导航按钮 -->
-                <div class="swiper-button-prev"></div>
+                <!-- <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
-              </div>
+              </div> -->
+              <SliderLoop :bannerList="floor.carouselList"></SliderLoop>
             </div>
             <div class="split">
               <span class="floor-x-line"></span>
@@ -71,9 +70,55 @@
 </template>
 
 <script>
+// import Swiper from "swiper";
+// import "swiper/css/swiper.css";
 export default {
   name: "Floor",
-  props:['floor'],//声明接收属性
+  props: ["floor"], //声明接收属性
+  mounted() {
+    //1、这里直接创建Swiper实例，是可以的
+    // 因为我们floor当中 轮播图结构已经形成了
+    // 因为我们的floor数据不需要请求获取，而是直接在创建floor组件的时候就已经有这个数据了
+    // new Swiper(this.$refs.floor2Swiper, {
+    //   // 如果需要分页器
+    //   pagination: {
+    //     el: ".swiper-pagination",
+    //   },
+    //   // 如果需要前进后退按钮
+    //   navigation: {
+    //     nextEl: ".swiper-button-next",
+    //     prevEl: ".swiper-button-prev",
+    //   },
+    // });
+  },
+
+  // watch: {
+
+  //   // floor(){
+  //   //   //只是一般监视可以简写  //深度监视必须使用麻烦写法
+  //   // },
+
+  //   floor: {
+  //     //监视： 一般监视和深度监视
+  //     // deep:true, //配置深度监视
+  //     immediate:true, //immediate立即的意思
+  //     handler(newVal, oldVal) {
+  //       this.$nextTick(() => {
+  //         new Swiper(this.$refs.floor2Swiper, {
+  //           // 如果需要分页器
+  //           pagination: {
+  //             el: ".swiper-pagination",
+  //           },
+  //           // 如果需要前进后退按钮
+  //           navigation: {
+  //             nextEl: ".swiper-button-next",
+  //             prevEl: ".swiper-button-prev",
+  //           },
+  //         });
+  //       });
+  //     },
+  //   },
+  // },
 };
 </script>
 
