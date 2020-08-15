@@ -106,6 +106,7 @@
 import { mapState, mapGetters } from "vuex";
 // import _ from 'lodash' //打包后的项目体积过大  应该局部引入
 import throttle from "lodash/throttle";
+// import cloneDeep from "lodash/cloneDeep";
 
 export default {
   name: "TypeNav",

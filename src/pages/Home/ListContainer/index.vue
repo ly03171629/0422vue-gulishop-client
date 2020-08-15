@@ -5,19 +5,10 @@
       <div class="center">
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
+          <div class="swiper-wrapper" v-for="(banner, index) in bannerList" :key="banner.id">
             <div class="swiper-slide">
-              <img src="./images/banner1.jpg" />
+              <img :src="banner.imgUrl" />
             </div>
-            <!-- <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
-            </div> -->
           </div>
           <!-- 如果需要分页器 -->
           <div class="swiper-pagination"></div>
@@ -111,8 +102,17 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
   name: "ListContainer",
+  mounted(){
+    this.$store.dispatch('getBannerList')
+  },
+  computed:{
+    ...mapState({
+      bannerList:state => state.home.bannerList
+    })
+  }
 };
 </script>
 
