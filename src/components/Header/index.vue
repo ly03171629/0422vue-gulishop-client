@@ -84,9 +84,14 @@ export default {
         location.query = this.$route.query
       }
 
-
+      if(this.$route.path !== '/home'){
+        this.$router.replace(location) //对象
+      }else{
+        this.$router.push(location) //对象
+      }
+      
       // this.$router.push('/search') //字符串 
-      this.$router.push(location) //对象
+      // this.$router.push(location) //对象
       //路由传递参数
     }
   }

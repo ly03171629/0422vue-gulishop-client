@@ -86,7 +86,6 @@
             </div>
           </div>
         </transition>
-        
       </div>
       <nav class="nav">
         <a href="###">服装城</a>
@@ -113,20 +112,17 @@ export default {
   data() {
     return {
       currentIndex: -1, //当前移入项的下标  初始值 -1  移入某一项，就把这个值改为移入的这项的下标
-      isShow:true
+      isShow: true,
     };
   },
   mounted() {
-     //请求三级分类列表数据不应该在这里，会造成两次触发请求数据，而两次数据是一样的
+    //请求三级分类列表数据不应该在这里，会造成两次触发请求数据，而两次数据是一样的
     // this.$store.dispatch('getCategoryList')
     // this.getCategoryList();
-    if(this.$route.path !== '/home'){
-      this.isShow = false
+    if (this.$route.path !== "/home") {
+      this.isShow = false;
     }
   },
-
-
-
 
   methods: {
     // getCategoryList() {
@@ -162,53 +158,57 @@ export default {
     //点击类别事件回调
     toSearch(event) {
       //event 就是我们的事件对象
-      let target = event.target //就是我们的目标元素（真正发生事件的儿子元素）
-      let data = target.dataset //拿到目标元素身上所有的自定义属性组成的对象
-      console.log(data)
+      let target = event.target; //就是我们的目标元素（真正发生事件的儿子元素）
+      let data = target.dataset; //拿到目标元素身上所有的自定义属性组成的对象
+      console.log(data);
       // 什么时候点的就是a标签  data当中存在categoryname那么就是点击的a标签
-      let {categoryname,category1id,category2id,category3id} = data
+      let { categoryname, category1id, category2id, category3id } = data;
 
-      if(categoryname){
+      if (categoryname) {
         //点击的就是a标签
         let location = {
-          name:'search'
-        }
+          name: "search",
+        };
         let query = {
-          categoryName:categoryname
-        }
-        if(category1id){
-          query.category1Id = category1id
-        }else if(category2id){
-          query.category2Id = category2id
-        }else{
-          query.category3Id = category3id
+          categoryName: categoryname,
+        };
+        if (category1id) {
+          query.category1Id = category1id;
+        } else if (category2id) {
+          query.category2Id = category2id;
+        } else {
+          query.category3Id = category3id;
         }
         //到了这query参数就收集ok
-        location.query = query
-
+        location.query = query;
 
         //点击类别的时候带的是query参数，我们得去看看原来有没有params参数，有的话也得带上
-        if(this.$route.params){
-          location.params = this.$route.params
+        if (this.$route.params) {
+          location.params = this.$route.params;
         }
 
-        this.$router.push(location)
-      }//else{
+        if (this.$route.path !== "/home") {
+          this.$router.replace(location); //对象
+        } else {
+          this.$router.push(location); //对象
+        }
+        // this.$router.push(location)
+      } //else{
       //   //点击不是a标签，不关心
       // }
     },
 
     //移入外部的div显示三级分类列表
-    moveInDiv(){
-      this.isShow = true
+    moveInDiv() {
+      this.isShow = true;
     },
     //移出外部的div首页的三级分类不会隐藏，但是search的三级分类不会隐藏
-    moveOutDiv(){
-      this.currentIndex = -1
-      if(this.$route.path !== '/home'){
-        this.isShow = false
+    moveOutDiv() {
+      this.currentIndex = -1;
+      if (this.$route.path !== "/home") {
+        this.isShow = false;
       }
-    }
+    },
   },
 
   computed: {
@@ -265,16 +265,16 @@ export default {
       background: hotpink;
       z-index: 999;
 
-      &.show-enter{
+      &.show-enter {
         opacity: 0;
         height: 0;
       }
-      &.show-enter-to{
+      &.show-enter-to {
         opacity: 1;
         height: 461px;
       }
-      &.show-enter-active{
-        transition: all .5s;
+      &.show-enter-active {
+        transition: all 0.5s;
       }
 
       .all-sort-list2 {

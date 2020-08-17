@@ -17,7 +17,8 @@
       <div class="fl value">
         <ul class="type-list">
           <li v-for="(attrValue, index) in attr.attrValueList" :key="index">
-            <a>{{attrValue}}</a>
+            <a href="javascript:;" @click="searchForAttrValue(attr,attrValue)">{{attrValue}}</a>
+            <!-- "属性ID:属性值:属性名" -->
           </li>
         </ul>
       </div>
@@ -38,6 +39,9 @@ import { mapGetters } from 'vuex'
         //需要给父亲传递trademark数据，让父亲去发请求
         //哪里在触发事件（$emit）哪里就是发送数据的
         this.$emit('searchForTrademark',trademark)
+      },
+      searchForAttrValue(attr,attrValue){
+        this.$emit('searchForAttrValue',attr,attrValue)
       }
     }
   }
