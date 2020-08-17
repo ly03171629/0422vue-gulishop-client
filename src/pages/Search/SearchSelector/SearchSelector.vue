@@ -4,7 +4,7 @@
       <div class="fl key brand">品牌</div>
       <div class="value logos">
         <ul class="logo-list">
-          <li v-for="(trademark, index) in trademarkList" :key="trademark.tmId">{{trademark.tmName}}</li>
+          <li v-for="(trademark, index) in trademarkList" :key="trademark.tmId" @click="searchForTrademark(trademark)">{{trademark.tmName}}</li>
         </ul>
       </div>
       <div class="ext">
@@ -32,6 +32,13 @@ import { mapGetters } from 'vuex'
     name: 'SearchSelector',
     computed:{
       ...mapGetters(['attrsList','trademarkList'])
+    },
+    methods:{
+      searchForTrademark(trademark){
+        //需要给父亲传递trademark数据，让父亲去发请求
+        //哪里在触发事件（$emit）哪里就是发送数据的
+        this.$emit('searchForTrademark',trademark)
+      }
     }
   }
 </script>

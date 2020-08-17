@@ -11,24 +11,24 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">
-              iphone
-              <i>×</i>
+            <li class="with-x" v-show="searchParams.categoryName">
+              {{searchParams.categoryName}}
+              <i @click="removeCategoryName">×</i>
             </li>
-            <li class="with-x">
-              华为
-              <i>×</i>
+            <li class="with-x" v-show="searchParams.keyword">
+              {{searchParams.keyword}}
+              <i @click="removeKeyword">×</i>
             </li>
-            <li class="with-x">
-              OPPO
-              <i>×</i>
+            <li class="with-x" v-show="searchParams.trademark">
+              {{(searchParams.trademark ? searchParams.trademark : '').split(':')[1]}}
+              <!-- {{searchParams.trademark.split(':')[1]}}  -->
+              <i @click="removeTrademark">×</i>
             </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector  @searchForTrademark="searchForTrademark" />
 
         <!--details-->
         <div class="details clearfix">
@@ -157,12 +157,10 @@ export default {
       },
     };
   },
-
-  //根据类别及关键字搜索
-  //mounted一般用来异步请求数据
-  //beforMount 一般用来同步处理数据（参数）
-
   beforeMount() {
+    //根据类别及关键字搜索
+    //mounted一般用来异步请求数据
+    //beforMount 一般用来同步处理数据（参数）
     //把路由当中的keyword还有相关的类别名称及类别id获取到，添加到searchParams搜索条件当中
     //如果有那么搜索条件当中就有了，如果没有那就是初始化参数
 
@@ -193,7 +191,7 @@ export default {
 
     // //把我们搜索的参数数据变为当前的这个处理后的对象
     // this.searchParams = searchParams;
-    this.handlerSearchParams()
+    this.handlerSearchParams();
   },
 
   mounted() {
@@ -203,6 +201,7 @@ export default {
     getGoodsListInfo() {
       this.$store.dispatch("getGoodsListInfo", this.searchParams);
     },
+    //处理请求参数
     handlerSearchParams() {
       let { keyword } = this.$route.params;
       let {
@@ -232,6 +231,31 @@ export default {
       //把我们搜索的参数数据变为当前的这个处理后的对象
       this.searchParams = searchParams;
     },
+    //删除面包屑当中的类名请求参数
+    removeCategoryName() {
+      this.searchParams.categoryName = "";
+      // this.getGoodsListInfo();
+      //不能直接dispatch 因为它改不了路由当中的路径
+      this.$router.push({name:'search',params:this.$route.params})
+    },
+    //删除面包屑当中的关键字请求参数
+    removeKeyword() {
+      this.searchParams.keyword = "";
+      // this.getGoodsListInfo();
+      this.$router.push({name:'search',query:this.$route.query})
+    },
+
+    //使用自定义事件组件通信（子向父），达到根据品牌搜索
+    searchForTrademark(trademark){
+      //回调函数再谁当中，谁就是接收数据的
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`
+      this.getGoodsListInfo();
+    },
+    //删除面包屑当中的品牌参数
+    removeTrademark(){
+      this.searchParams.trademark = ""
+      this.getGoodsListInfo();
+    }
   },
   computed: {
     ...mapGetters(["goodsList"]),
@@ -246,7 +270,7 @@ export default {
     $route() {
       //把路由当中的keyword还有相关的类别名称及类别id获取到，添加到searchParams搜索条件当中
       //如果有那么搜索条件当中就有了，如果没有那就是初始化参数
-      this.handlerSearchParams()
+      this.handlerSearchParams();
       this.getGoodsListInfo();
     },
   },
