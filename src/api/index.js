@@ -30,5 +30,31 @@ export const reqFloorList = () => {
 }
 
 
+// /api/list POST  
+// data:{
+//   "category3Id": "61",
+//   "categoryName": "手机",
+//   "keyword": "小米",
+//   "order": "1:desc",
+//   "pageNo": 1,
+//   "pageSize": 10,
+//   "props": ["1:1700-2799:价格", "2:6.65-6.74英寸:屏幕尺寸"],
+//   "trademark": "4:小米"
+// }
+
+//searchParams代表搜索参数，这个参数必须要有，至少得是一个没有属性的空对象
+//参数如果是一个空的对象，代表搜索请求获取的是全部的数据
+//参数如果有搜索条件，代表获取的就是搜索条件匹配的数据
+
+export const reqGoodsListInfo = (searchParams) => {
+  return Ajax({
+    url:'/list',
+    method:'post',
+    data:searchParams,
+  })
+}
+
+// reqGoodsListInfo({})
+
 
 
