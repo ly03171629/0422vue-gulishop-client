@@ -76,9 +76,7 @@
                       target="_blank"
                       href="item.html"
                       title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                    >
-                     {{goods.title}}
-                    </a>
+                    >{{goods.title}}</a>
                   </div>
                   <div class="commit">
                     <i class="command">
@@ -139,7 +137,7 @@
 
 <script>
 import SearchSelector from "./SearchSelector/SearchSelector";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 export default {
   name: "Search",
   data() {
@@ -164,33 +162,38 @@ export default {
   //mounted一般用来异步请求数据
   //beforMount 一般用来同步处理数据（参数）
 
-  beforeMount(){
+  beforeMount() {
     //把路由当中的keyword还有相关的类别名称及类别id获取到，添加到searchParams搜索条件当中
     //如果有那么搜索条件当中就有了，如果没有那就是初始化参数
 
-    let {keyword} = this.$route.params
-    let {categoryName,category1Id,category2Id,category3Id} = this.$route.query
+    // let { keyword } = this.$route.params;
+    // let {
+    //   categoryName,
+    //   category1Id,
+    //   category2Id,
+    //   category3Id,
+    // } = this.$route.query;
 
-    let searchParams = {
-      ...this.searchParams,
-      keyword,
-      categoryName,
-      category1Id,
-      category2Id,
-      category3Id,
-    }
+    // let searchParams = {
+    //   ...this.searchParams,
+    //   keyword,
+    //   categoryName,
+    //   category1Id,
+    //   category2Id,
+    //   category3Id,
+    // };
 
-    //这个参数，如果传的是空串，就没必要，剁了
-    //为了节省传递数据占用的带宽，为了让后端压力减小
-    Object.keys(searchParams).forEach(item => {
-      if(searchParams[item] === ''){
-        delete searchParams[item]
-      }
-    })
+    // //这个参数，如果传的是空串，就没必要，剁了
+    // //为了节省传递数据占用的带宽，为了让后端压力减小
+    // Object.keys(searchParams).forEach((item) => {
+    //   if (searchParams[item] === "") {
+    //     delete searchParams[item];
+    //   }
+    // });
 
-    //把我们搜索的参数数据变为当前的这个处理后的对象
-    this.searchParams = searchParams
-
+    // //把我们搜索的参数数据变为当前的这个处理后的对象
+    // this.searchParams = searchParams;
+    this.handlerSearchParams()
   },
 
   mounted() {
@@ -198,14 +201,54 @@ export default {
   },
   methods: {
     getGoodsListInfo() {
-      this.$store.dispatch("getGoodsListInfo",this.searchParams);
+      this.$store.dispatch("getGoodsListInfo", this.searchParams);
+    },
+    handlerSearchParams() {
+      let { keyword } = this.$route.params;
+      let {
+        categoryName,
+        category1Id,
+        category2Id,
+        category3Id,
+      } = this.$route.query;
+
+      let searchParams = {
+        ...this.searchParams,
+        keyword,
+        categoryName,
+        category1Id,
+        category2Id,
+        category3Id,
+      };
+
+      //这个参数，如果传的是空串，就没必要，剁了
+      //为了节省传递数据占用的带宽，为了让后端压力减小
+      Object.keys(searchParams).forEach((item) => {
+        if (searchParams[item] === "") {
+          delete searchParams[item];
+        }
+      });
+
+      //把我们搜索的参数数据变为当前的这个处理后的对象
+      this.searchParams = searchParams;
     },
   },
-  computed:{
-    ...mapGetters(['goodsList'])
+  computed: {
+    ...mapGetters(["goodsList"]),
   },
   components: {
     SearchSelector,
+  },
+
+  //解决search页输入搜索参数或者点击类别不会发请求的bug
+  //原因是因为mounted只能执行一次 search是一个路由组件，切换的时候才会创建和销毁
+  watch: {
+    $route() {
+      //把路由当中的keyword还有相关的类别名称及类别id获取到，添加到searchParams搜索条件当中
+      //如果有那么搜索条件当中就有了，如果没有那就是初始化参数
+      this.handlerSearchParams()
+      this.getGoodsListInfo();
+    },
   },
 };
 </script>
