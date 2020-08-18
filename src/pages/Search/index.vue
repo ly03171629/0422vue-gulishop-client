@@ -53,7 +53,7 @@
 
                 //3、点击切换排序规则
                 -->
-                <li :class="{active:orderFlag === '1'}">
+                <li :class="{active:orderFlag === '1'}" >
                   <a href="javascript:;" @click="changeOrder('1')">
                     综合
                     <i
@@ -130,7 +130,7 @@
           :currentPageNum="searchParams.pageNo"
           :total="goodsListInfo.total"
           :pageSize="searchParams.pageSize"
-          :continueSize="3"
+          :continueSize="5"
           />
         </div>
       </div>
@@ -153,7 +153,7 @@ export default {
         categoryName: "",
         keyword: "",
         order: "2:desc",
-        pageNo: 1,
+        pageNo: 5,
         pageSize: 2,
         props: [],
         trademark: "",
