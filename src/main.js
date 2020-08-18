@@ -16,9 +16,17 @@ import '@/api' //为了测试用的
 
 import TypeNav from '@/components/TypeNav'
 import SliderLoop from '@/components/SliderLoop'
+import Pagination from '@/components/Pagination'
+
+
+
 //全局注册TypeNav  因为它是一个公用的组件
 Vue.component('TypeNav',TypeNav)
 Vue.component('SliderLoop',SliderLoop)
+Vue.component('Pagination',Pagination)
+
+
+
 
 Vue.config.productionTip = false
 

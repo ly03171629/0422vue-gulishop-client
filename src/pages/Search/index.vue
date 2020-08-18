@@ -45,10 +45,6 @@
               <ul class="sui-nav">
                 <!-- //排序的标志：1代表综合排序 2代表价格排序    排序的类型：'desc'降序 'asc'升序
                 // 4种：综合升序  综合降序  价格升序  价格降序
-
-
-
-
                 //1、背景色谁有  看order的数据 排序的标志是谁  1代表综合  2价格 
                 //2、 图标的处理
                       1》、用什么                 iconfont  在线
@@ -57,7 +53,6 @@
 
                 //3、点击切换排序规则
                 -->
-                
                 <li :class="{active:orderFlag === '1'}">
                   <a href="javascript:;" @click="changeOrder('1')">
                     综合
@@ -130,39 +125,13 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted">
-                  <span>...</span>
-                </li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div>
-                <span>共10页&nbsp;</span>
-              </div>
-            </div>
-          </div>
+          <!-- 从父组件给分页组件传递的数据 -->
+          <Pagination 
+          :currentPageNum="searchParams.pageNo"
+          :total="goodsListInfo.total"
+          :pageSize="searchParams.pageSize"
+          :continueSize="3"
+          />
         </div>
       </div>
     </div>
@@ -171,7 +140,7 @@
 
 <script>
 import SearchSelector from "./SearchSelector/SearchSelector";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "Search",
   data() {
@@ -185,7 +154,7 @@ export default {
         keyword: "",
         order: "2:desc",
         pageNo: 1,
-        pageSize: 5,
+        pageSize: 2,
         props: [],
         trademark: "",
       },
@@ -341,6 +310,9 @@ export default {
 
   },
   computed: {
+    ...mapState({
+      goodsListInfo:state => state.search.goodsListInfo
+    }),
     ...mapGetters(["goodsList"]),
     orderFlag(){
       return this.searchParams.order.split(':')[0]
