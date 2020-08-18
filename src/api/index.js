@@ -56,5 +56,13 @@ export const reqGoodsListInfo = (searchParams) => {
 
 // reqGoodsListInfo({})
 
+///api/item/{ skuId }  get
+export const reqGoodsDetailInfo = (skuId) => {
+  return Ajax({
+    url:`/item/${ skuId }`,
+    method:'get'
+  })
+}
+
 
 

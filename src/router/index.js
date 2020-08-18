@@ -31,6 +31,10 @@ VueRouter.prototype.replace = function(location,onResolved,onRejected){
 
 
 const router = new VueRouter({
-  routes
+  routes,
+  //控制跳转过去之后滚动位置在哪里
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 export default router
