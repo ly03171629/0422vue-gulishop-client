@@ -131,6 +131,7 @@
           :total="goodsListInfo.total"
           :pageSize="searchParams.pageSize"
           :continueSize="5"
+          @changePageNum="changePageNum"
           />
         </div>
       </div>
@@ -153,7 +154,7 @@ export default {
         categoryName: "",
         keyword: "",
         order: "2:desc",
-        pageNo: 5,
+        pageNo: 1,
         pageSize: 2,
         props: [],
         trademark: "",
@@ -237,6 +238,7 @@ export default {
     },
     //删除面包屑当中的类名请求参数
     removeCategoryName() {
+      this.searchParams.pageNo = 1
       this.searchParams.categoryName = "";
       // this.getGoodsListInfo();
       //不能直接dispatch 因为它改不了路由当中的路径
@@ -245,6 +247,8 @@ export default {
     },
     //删除面包屑当中的关键字请求参数
     removeKeyword() {
+      this.searchParams.pageNo = 1
+
       this.$bus.$emit("clearKeyword"); //通知header组件把关键字清空
 
       this.searchParams.keyword = "";
@@ -255,11 +259,14 @@ export default {
     //使用自定义事件组件通信（子向父），达到根据品牌搜索
     searchForTrademark(trademark) {
       //回调函数再谁当中，谁就是接收数据的
+      this.searchParams.pageNo = 1
+
       this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
       this.getGoodsListInfo();
     },
     //删除面包屑当中的品牌参数
     removeTrademark() {
+      this.searchParams.pageNo = 1
       this.searchParams.trademark = "";
       this.getGoodsListInfo();
     },
@@ -275,6 +282,8 @@ export default {
       );
       if (num !== -1) return;
 
+      this.searchParams.pageNo = 1
+
       this.searchParams.props.push(
         `${attr.attrId}:${attrValue}:${attr.attrName}`
       );
@@ -283,6 +292,7 @@ export default {
 
     removeProp(index) {
       //删除某一个下标的属性值
+      this.searchParams.pageNo = 1
       this.searchParams.props.splice(index, 1);
       this.getGoodsListInfo();
     },
@@ -303,7 +313,13 @@ export default {
       }
 
       //把新的排序规则给了搜索参数，重新发请求
+      this.searchParams.pageNo = 1
       this.searchParams.order = newOrder
+      this.getGoodsListInfo()
+    },
+
+    changePageNum(page){
+      this.searchParams.pageNo = page
       this.getGoodsListInfo()
     }
 

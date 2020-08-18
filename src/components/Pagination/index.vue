@@ -1,8 +1,9 @@
 <template>
   <div class="pagination">
-    <button :disabled="currentPageNum === 1">上一页</button>
-    <button v-if="startEnd.start > 1" :class="{active:currentPageNum === 1}">1</button>
+    <button :disabled="currentPageNum === 1" @click="$emit('changePageNum',currentPageNum - 1)">上一页</button>
+    <button v-if="startEnd.start > 1" @click="$emit('changePageNum',1)">1</button>
     <button v-if="startEnd.start > 2">···</button>
+
 
     <!-- vfor和vif可以同时出现，但是vfor优先级比vif高 -->
     <button
@@ -10,16 +11,15 @@
       :key="page"
       v-if="page >= startEnd.start"
       :class="{active:currentPageNum === page}"
+      @click="$emit('changePageNum',page)"
     >{{page}}</button>
 
-    <button v-if="startEnd.end < totalPageNum - 1">···</button>
 
-    <button
-      v-if="startEnd.end < totalPageNum"
-      :class="{active:currentPageNum === totalPageNum}"
-    >{{totalPageNum}}</button>
-    
-    <button :disabled="currentPageNum === totalPageNum">下一页</button>
+    <button v-if="startEnd.end < totalPageNum - 1">···</button>
+    <button v-if="startEnd.end < totalPageNum" @click="$emit('changePageNum',totalPageNum)">{{totalPageNum}}</button>
+    <button :disabled="currentPageNum === totalPageNum" @click="$emit('changePageNum',currentPageNum + 1)">下一页</button>
+
+
 
     <button style="margin-left: 30px">共 {{total}} 条</button>
   </div>
