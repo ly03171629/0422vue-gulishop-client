@@ -47,7 +47,7 @@
                 // 4种：综合升序  综合降序  价格升序  价格降序
 
 
-                
+
 
                 //1、背景色谁有  看order的数据 排序的标志是谁  1代表综合  2价格 
                 //2、 图标的处理
@@ -58,13 +58,13 @@
                 //3、点击切换排序规则
                 -->
                 
-                <li :class="{active:searchParams.order.split(':')[0] === '1'}">
+                <li :class="{active:orderFlag === '1'}">
                   <a href="javascript:;" @click="changeOrder('1')">
                     综合
                     <i
                       class="iconfont"
-                      :class="{icondown:searchParams.order.split(':')[1] === 'desc',iconup:searchParams.order.split(':')[1] === 'asc'}"
-                      v-if="searchParams.order.split(':')[0] === '1'"
+                      :class="{icondown:orderType === 'desc',iconup:orderType === 'asc'}"
+                      v-if="orderFlag === '1'"
                     ></i>
                   </a>
                 </li>
@@ -77,13 +77,13 @@
                 <li>
                   <a href="#">评价</a>
                 </li>
-                <li :class="{active:searchParams.order.split(':')[0] === '2'}">
+                <li :class="{active:orderFlag === '2'}">
                   <a href="javascript:;" @click="changeOrder('2')">
                     价格
                     <i
                       class="iconfont"
-                      :class="{icondown:searchParams.order.split(':')[1] === 'desc',iconup:searchParams.order.split(':')[1] === 'asc'}"
-                      v-if="searchParams.order.split(':')[0] === '2'"
+                      :class="{icondown:orderType === 'desc',iconup:orderType=== 'asc'}"
+                      v-if="orderFlag === '2'"
                     ></i>
                   </a>
                 </li>
@@ -319,8 +319,11 @@ export default {
     },
     //综合和价格排序切换规则
     changeOrder(orderFlag){
-      let originOrderFlag = this.searchParams.order.split(':')[0]
-      let originOrderType = this.searchParams.order.split(':')[1]
+      // let originOrderFlag = this.searchParams.order.split(':')[0]
+      //优化后
+      let originOrderFlag = this.orderFlag
+      // let originOrderType = this.searchParams.order.split(':')[1]
+      let originOrderType = this.orderType
       let newOrder = ''
       if(orderFlag === originOrderFlag){
         //代表点的还是原来排序的那个，那么我们只需要改变排序类型就完了
@@ -339,6 +342,13 @@ export default {
   },
   computed: {
     ...mapGetters(["goodsList"]),
+    orderFlag(){
+      return this.searchParams.order.split(':')[0]
+    },
+    orderType(){
+      return this.searchParams.order.split(':')[1]
+    },
+    
   },
   components: {
     SearchSelector,
