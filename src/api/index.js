@@ -76,6 +76,20 @@ export const reqAddOrUpdateCart = (skuId,skuNum) => {
 } 
 
 
+//请求购物车列表数据
+///api/cart/cartList  get  无
+
+export const reqShopCartList = () => {
+  return Ajax({
+    url:'/cart/cartList',
+    method:'get'
+  })
+}
+
+
+// export const reqShopCartList = () => Ajax.get('/cart/cartList')
+
+
 
 
 

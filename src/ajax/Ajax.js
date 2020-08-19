@@ -15,6 +15,7 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import store from '@/store'
 
 //创建一个新的axios实例
 //1
@@ -27,7 +28,11 @@ const instance = axios.create({
 //请求拦截器当中添加打开进度条的功能
 instance.interceptors.request.use(
   config => {
+    
     //处理config (请求报文)
+    //把用户的临时身份标识添加到每次请求的请求头当中
+    let userTempId = store.state.user.userTempId
+    config.headers.userTempId = userTempId  
     //添加额外的功能（使用进度条）
     //2
     NProgress.start();

@@ -354,18 +354,27 @@ export default {
       //再让点击的那个变绿
       attrValue.isChecked = "1";
     },
+
     async addShopCart() {
       //先发请求给后台添加购物车
       //后台添加成功后返回结果
       try {
         //成功的结果
+        //this.$store.dispatch调用函数
         await this.$store.dispatch("addOrUpdateCart", {
           skuId: this.skuInfo.id,
           skuNum: this.skuNum,
         });
         //根据结果决定是否跳转到添加成功页面
         alert('添加购物车成功，将自动跳转到成功页面')
+
+        //成功的页面页需要显示当前商品的详情，所以我们也得把商品的信息传递过去（存储方案：localstorage和sessionStorage）
+
+        sessionStorage.setItem('SKUINFO_KEY',JSON.stringify(this.skuInfo))
+
+         //因为成功页面需要商品的数量，所以通过路由传参传递
         this.$router.push('/addcartsuccess?skuNum='+ this.skuNum)
+
       } catch (error) {
         //失败
         alert(error.message)
