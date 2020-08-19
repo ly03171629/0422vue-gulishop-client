@@ -3,9 +3,14 @@ import Search from '@/pages/Search'
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Detail from '@/pages/Detail'
+import AddCartSuccess from '@/pages/AddCartSuccess'
 
 export default [
   //专门配置各种路由的地方     路由和路由器要区分
+  {
+    path:'/addcartsuccess',
+    component:AddCartSuccess
+  },
   {
     path:'/detail/:skuId',
     component:Detail
