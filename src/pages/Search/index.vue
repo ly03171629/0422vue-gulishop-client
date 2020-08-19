@@ -45,6 +45,8 @@
               <ul class="sui-nav">
                 <!-- //排序的标志：1代表综合排序 2代表价格排序    排序的类型：'desc'降序 'asc'升序
                 // 4种：综合升序  综合降序  价格升序  价格降序
+
+
                 //1、背景色谁有  看order的数据 排序的标志是谁  1代表综合  2价格 
                 //2、 图标的处理
                       1》、用什么                 iconfont  在线
@@ -301,6 +303,7 @@ export default {
       let originOrderFlag = this.orderFlag
       // let originOrderType = this.searchParams.order.split(':')[1]
       let originOrderType = this.orderType
+      
       let newOrder = ''
       if(orderFlag === originOrderFlag){
         //代表点的还是原来排序的那个，那么我们只需要改变排序类型就完了

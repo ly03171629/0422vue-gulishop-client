@@ -16,9 +16,9 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom />
+          <Zoom  :imgList="imgList"/>
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList :imgList="imgList"/>
         </div>
 
         <!-- 右侧选择区域布局 -->
@@ -341,6 +341,9 @@ export default {
 
   computed: {
     ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
+    imgList(){
+      return this.skuInfo.skuImageList || []
+    }
   },
 
   components: {
