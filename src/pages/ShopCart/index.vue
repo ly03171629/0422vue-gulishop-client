@@ -13,7 +13,7 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="(cart, index) in shopCartList" :key="cart.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="cart.isChecked === 1" />
+            <input type="checkbox" name="chk_list" :checked="cart.isChecked === 1" @click="updateOne(cart)"/>
           </li>
           <li class="cart-list-con2">
             <img :src="cart.imgUrl" />
@@ -97,6 +97,17 @@ export default {
       } catch (error) {
         alert(error.message)
       }
+    },
+
+    async updateOne(cart){
+      //发请求
+      try {
+        await this.$store.dispatch('updateIsCheck',{skuId:cart.skuId,isChecked:cart.isChecked === 1? 0 : 1})
+      //结果成功去重新请求列表页数据
+        this.getShopCartList()
+      } catch (error) {
+        alert(error.message)
+      } 
     }
   },
   computed: {
@@ -107,7 +118,16 @@ export default {
       get() {
         return this.shopCartList.every((item) => item.isChecked === 1);
       },
-      set() {},
+      async set(val) {
+        //我们要让所有的人都去修改状态val对应的状态 val如果是true ===》 1   如果是false ===> 0
+        try {
+          const result = await this.$store.dispatch('updateAllIsCheck',val?1:0)
+          console.log(result)
+          this.getShopCartList()
+        } catch (error) {
+          alert(error.message)
+        }
+      },
     },
     checkNum() {
       return this.shopCartList.reduce((pre, item) => {

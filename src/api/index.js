@@ -90,6 +90,15 @@ export const reqShopCartList = () => {
 // export const reqShopCartList = () => Ajax.get('/cart/cartList')
 
 
+// /api/cart/checkCart/{skuID}/{isChecked}  请求选中状态  get
+
+
+export const reqUpdateIsCheck = (skuId,isChecked) => {
+  return Ajax({
+    url:`/cart/checkCart/${skuId}/${isChecked}`,
+    method:'get'
+  })
+}
 
 
 
