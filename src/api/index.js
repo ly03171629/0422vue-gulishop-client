@@ -101,6 +101,26 @@ export const reqUpdateIsCheck = (skuId,isChecked) => {
 }
 
 
+//请求删除一个购物车数据   /api/cart/deleteCart/{skuId}  delete
+
+export const reqDeleteCart = (skuId) => {
+  return Ajax({
+    url:`/cart/deleteCart/${skuId}`,
+    method:'delete'
+  })
+}
+
+
+//请求注册  /api/user/passport/register   post    {mobile,password,code}
+
+export const reqRegister = (userInfo) => {
+  return Ajax({
+    url:'/user/passport/register',
+    method:'post',
+    data:userInfo
+  })
+}
+
 
 
 

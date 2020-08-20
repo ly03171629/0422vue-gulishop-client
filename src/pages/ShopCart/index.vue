@@ -13,7 +13,12 @@
       <div class="cart-body">
         <ul class="cart-list" v-for="(cart, index) in shopCartList" :key="cart.id">
           <li class="cart-list-con1">
-            <input type="checkbox" name="chk_list" :checked="cart.isChecked === 1" @click="updateOne(cart)"/>
+            <input
+              type="checkbox"
+              name="chk_list"
+              :checked="cart.isChecked === 1"
+              @click="updateOne(cart)"
+            />
           </li>
           <li class="cart-list-con2">
             <img :src="cart.imgUrl" />
@@ -39,7 +44,7 @@
             <span class="sum">{{cart.skuPrice * cart.skuNum}}</span>
           </li>
           <li class="cart-list-con7">
-            <a href="#none" class="sindelet">删除</a>
+            <a href="javascript:;" class="sindelet" @click="deleteOne(cart)">删除</a>
             <br />
             <a href="#none">移到收藏</a>
           </li>
@@ -52,7 +57,7 @@
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a href="javascript:;" @click="deleteAll">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -85,29 +90,53 @@ export default {
       this.$store.dispatch("getShopCartList");
     },
 
-    async updateCartNum(cart,disNum){
-      if(cart.skuNum + disNum < 1){
-        disNum = 1 - cart.skuNum   //disNum和原来的数量加起来最少得是1,如果小于1得对disNum修正 
+    async updateCartNum(cart, disNum) {
+      if (cart.skuNum + disNum < 1) {
+        disNum = 1 - cart.skuNum; //disNum和原来的数量加起来最少得是1,如果小于1得对disNum修正
       }
 
       //发请求去处理数量，返回成功后重新请求列表数据，就会看到最新的数据
       try {
-        await this.$store.dispatch('addOrUpdateCart',{skuId:cart.skuId,skuNum:disNum})
+        await this.$store.dispatch("addOrUpdateCart", {
+          skuId: cart.skuId,
+          skuNum: disNum,
+        });
+        this.getShopCartList();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+
+    async updateOne(cart) {
+      //发请求
+      try {
+        await this.$store.dispatch("updateIsCheck", {
+          skuId: cart.skuId,
+          isChecked: cart.isChecked === 1 ? 0 : 1,
+        });
+        //结果成功去重新请求列表页数据
+        this.getShopCartList();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+
+    async deleteOne(cart) {
+      try {
+        await this.$store.dispatch("deleteCart", cart.skuId);
+        this.getShopCartList();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+
+    async deleteAll(){
+      try {
+        await this.$store.dispatch('deleteAllCheckCart')
         this.getShopCartList()
       } catch (error) {
         alert(error.message)
       }
-    },
-
-    async updateOne(cart){
-      //发请求
-      try {
-        await this.$store.dispatch('updateIsCheck',{skuId:cart.skuId,isChecked:cart.isChecked === 1? 0 : 1})
-      //结果成功去重新请求列表页数据
-        this.getShopCartList()
-      } catch (error) {
-        alert(error.message)
-      } 
     }
   },
   computed: {
@@ -116,16 +145,19 @@ export default {
     }),
     isCheckAll: {
       get() {
-        return this.shopCartList.every((item) => item.isChecked === 1);
+        return this.shopCartList.every((item) => item.isChecked === 1) && this.shopCartList.length > 0;
       },
       async set(val) {
         //我们要让所有的人都去修改状态val对应的状态 val如果是true ===》 1   如果是false ===> 0
         try {
-          const result = await this.$store.dispatch('updateAllIsCheck',val?1:0)
-          console.log(result)
-          this.getShopCartList()
+          const result = await this.$store.dispatch(
+            "updateAllIsCheck",
+            val ? 1 : 0
+          );
+          console.log(result);
+          this.getShopCartList();
         } catch (error) {
-          alert(error.message)
+          alert(error.message);
         }
       },
     },

@@ -1,4 +1,4 @@
-import { reqAddOrUpdateCart,reqShopCartList ,reqUpdateIsCheck} from "@/api"
+import { reqAddOrUpdateCart,reqShopCartList ,reqUpdateIsCheck, reqDeleteCart} from "@/api"
 
 const state = {
   shopCartList:[]
@@ -51,7 +51,29 @@ const actions = {
       promises.push(promise)
 
     })
-    
+
+    return Promise.all(promises)
+  },
+
+
+  async deleteCart({commit},skuId){
+    const result = await reqDeleteCart(skuId)
+    if(result.code === 200){
+      return 'ok'
+    }else{
+      return Promise.reject(new Error('failed'))  //返回的是失败的promise 结果就是这个return返回的失败的promise的原因
+      // return 'failed'  行 但是async函数将永远返回成功状态的promise
+    }
+  },
+
+  async deleteAllCheckCart({commit,state,dispatch}){
+    let promises = []
+    state.shopCartList.forEach(item => {
+      if(item.isChecked === 0) return
+      let promise = dispatch('deleteCart',item.skuId)
+      promises.push(promise)
+    })
+
     return Promise.all(promises)
   }
 
