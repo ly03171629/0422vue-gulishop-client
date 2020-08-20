@@ -71,7 +71,7 @@ export const reqGoodsDetailInfo = (skuId) => {
 export const reqAddOrUpdateCart = (skuId,skuNum) => {
   return Ajax({
     url:`/cart/addToCart/${ skuId }/${ skuNum }`,
-    method:'post'
+    method:'post',
   })
 } 
 

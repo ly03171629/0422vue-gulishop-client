@@ -1,6 +1,10 @@
 <template>
   <div class="spec-preview">
-    <img :src="defaultImg.imgUrl" />
+    <!-- imageList[defaultIndex].imgUrl 
+    1、避免出现a.b.c
+    2、a.b.c 要每一个都去判断 ，保证每个点语法拿到的结果不能是undefined
+    -->
+    <img :src="defaultImg.imgUrl" />  
     <div class="event" @mousemove="move"></div>
     <div class="big">
       <img :src="defaultImg.imgUrl" ref="bigImg"/>
