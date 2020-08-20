@@ -122,5 +122,24 @@ export const reqRegister = (userInfo) => {
 }
 
 
+//请求登录  /api/user/passport/login  post  {mobile,password}
+
+export const reqLogin = (userInfo) => {
+  return Ajax({
+    url:'/user/passport/login',
+    method:'post',
+    data:userInfo
+  })
+}
+
+
+//请求退出登录  /api/user/passport/logout
+export const reqLogout = () => {
+  return Ajax({
+    url:'/user/passport/logout',
+    method:'get',
+  })
+}
+
 
 
