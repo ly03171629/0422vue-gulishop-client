@@ -33,6 +33,7 @@ const actions = {
     if(result.code === 200){
       return 'ok'
     }else{
+      // throw new Error('failed');
       return Promise.reject(new Error('failed'))  //返回的是失败的promise 结果就是这个return返回的失败的promise的原因
       // return 'failed'  行 但是async函数将永远返回成功状态的promise
     }

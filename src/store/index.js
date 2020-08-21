@@ -6,6 +6,7 @@ import home from './home'
 import search from './search'
 import detail from './detail'
 import shopcart from './shopcart'
+import trade from './trade'
 
 const state = {}
 const mutations = {}
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     home,
     search,
     detail,
-    shopcart
+    shopcart,
+    trade
   }   //合并小的store到大的store身上
 })

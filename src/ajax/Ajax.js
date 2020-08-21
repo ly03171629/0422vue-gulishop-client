@@ -33,6 +33,14 @@ instance.interceptors.request.use(
     //把用户的临时身份标识添加到每次请求的请求头当中
     let userTempId = store.state.user.userTempId
     config.headers.userTempId = userTempId  
+
+    //把登录后的标识也添加到请求头当中
+    let token = store.state.user.userInfo.token
+    if(token){
+      config.headers.token = token
+    }
+
+
     //添加额外的功能（使用进度条）
     //2
     NProgress.start();

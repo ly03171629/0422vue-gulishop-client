@@ -141,5 +141,16 @@ export const reqLogout = () => {
   })
 }
 
+//请求创建订单交易的数据  /api/order/auth/trade  get
+
+export const reqTradeInfo = () => {
+  return Ajax({
+    url:'/order/auth/trade',
+    method:'get'
+  })
+}
+
+
+
 
 
