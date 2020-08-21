@@ -4,15 +4,18 @@ import router from '@/router'
 import store from '@/store'
 import '@/mock/mockServer'
 import 'swiper/css/swiper.css'
-
 import * as API from '@/api'
 
+//部分引入element-ui当中的 MessageBox, Message
+import { MessageBox, Message } from 'element-ui';  //引入了还没注册或者声明使用
+// 声明使用或者注册
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$message = Message;
 
-// import {reqCategoryList} from '@/api'
-// reqCategoryList()
 
 
-// import '@/api' //为了测试用的
+
 
 //组件三大步： 定义  注册  使用
 

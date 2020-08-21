@@ -202,5 +202,16 @@ export const reqPayInfo = (orderId) => {
 
 
 
+//获取订单支付状态的信息
+///api/payment/weixin/queryPayStatus/{orderId}   get
+
+export const reqOrderStatus = (orderId) => {
+  return Ajax({
+    url:`/payment/weixin/queryPayStatus/${orderId}`,
+    method:'get'
+  })
+}
+
+
 
 

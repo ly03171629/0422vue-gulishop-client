@@ -8,9 +8,14 @@ import ShopCart from '@/pages/ShopCart'
 import Trade from '@/pages/Trade'
 import Pay from '@/pages/Pay'
 import PaySuccess from '@/pages/PaySuccess'
+import Center from '@/pages/Center'
 
 export default [
   //专门配置各种路由的地方     路由和路由器要区分
+  {
+    path:'/center',
+    component:Center
+  },
   {
     path:'/paysuccess',
     component:PaySuccess

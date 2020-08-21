@@ -105,7 +105,8 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <router-link class="btn" to="/paysuccess">立即支付</router-link>
+          <!-- <router-link class="btn" to="/paysuccess">立即支付</router-link> -->
+          <a href="javascript:;" class="btn" @click="pay">立即支付</a>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -124,24 +125,92 @@
 </template>
 
 <script>
+import QRCode from "qrcode";
 export default {
   name: "Pay",
-  data(){
+  data() {
     return {
-      payInfo:{}
-    }
+      payInfo: {},
+      status: "",
+    };
   },
-  mounted(){
-    this.getPayInfo()
+  mounted() {
+    this.getPayInfo();
   },
-  methods:{
-    async getPayInfo(){
-      const result = await this.$API.reqPayInfo(this.$route.query.orderNo)
-      if(result.code === 200){
-        this.payInfo = result.data
+  methods: {
+    async getPayInfo() {
+      const result = await this.$API.reqPayInfo(this.$route.query.orderNo);
+      if (result.code === 200) {
+        this.payInfo = result.data;
       }
-    }
-  }
+    },
+
+    async pay() {
+      //先生成二维码图片的路径
+      // With promises
+      try {
+        //1\生成二维码
+        const imgUrl = await QRCode.toDataURL(this.payInfo.codeUrl);
+        console.log(imgUrl);
+
+        //2\弹出一个消息框去展示二维码图片  
+        this.$alert(`<img src="${imgUrl}" />`, "请使用微信扫码支付", {
+          dangerouslyUseHTMLString: true,
+          showClose: false,
+          showCancelButton: true,
+          cancelButtonText: "支付遇到问题",
+          confirmButtonText: "我已成功支付",
+          center: true,
+          //4\点击按钮之后的处理及和第三步产生联系
+          beforeClose: (action, instance, done) => {
+            //关闭之前回调
+            //如果不写这个回调，那么无论点击什么按钮，消息盒子都会强制关闭
+            //如果写了这个回调，那么消息盒子的关闭由我们自己控制
+            if (action === "confirm") {
+              //真实的环境
+              // if(this.status !== 200){
+              //   this.$message.warning('小伙子没支付，支付后自动跳转')
+              // }
+
+              //测试环境
+              clearInterval(this.timer); //clearInterval清除定时器，停止给定编号的定时器，并没有清空存储编号的变量
+              this.timer = null;
+              done();
+              //跳转过去之后手动关闭我们的弹出消息框
+              this.$router.push("/paysuccess");
+            } else if (action === "cancel") {
+              this.$message.warning("请联系尚硅谷前台小姐姐处理");
+              clearInterval(this.timer); //clearInterval清除定时器，停止给定编号的定时器，并没有清空存储编号的变量
+              this.timer = null;
+              done(); //让我们手动关闭消息盒子
+            }
+          },
+        }).then(() => {}).catch(() => {}); //函数的返回值也是promise
+
+        //3\弹出消息同时循环的给后台发请求，获取该订单的支付状态数据
+        //根据返回来的支付状态数据去决定要不要跳转到支付成功页面
+        if (!this.timer) {
+          this.timer = setInterval(async () => {
+            //每2秒发一次请求获取支付状态信息
+            const result = await this.$API.reqOrderStatus(this.payInfo.orderId);
+            if (result.code === 200) {
+              //支付成功：
+              //停止定时器  跳转到支付成功页面  把当前的状态保存起来 以便用户点击我已成功支付的时候去判定
+              this.status = 200;
+              clearInterval(this.timer); //clearInterval清除定时器，停止给定编号的定时器，并没有清空存储编号的变量
+              this.timer = null;
+              //跳转过去之后手动关闭我们的弹出消息框
+              this.$msgbox.close();
+              this.$router.push("/paysuccess");
+            }
+          }, 2000);
+        }
+
+      } catch (error) {
+        this.$message.error("生成二维码失败" + error.message);
+      }
+    },
+  },
 };
 </script>
 
