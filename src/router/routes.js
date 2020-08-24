@@ -11,6 +11,8 @@ import PaySuccess from '@/pages/PaySuccess'
 import Center from '@/pages/Center'
 import MyOrder from '@/pages/Center/MyOrder'
 import GroupOrder from '@/pages/Center/GroupOrder'
+import store from '@/store'
+
 
 export default [
   //专门配置各种路由的地方     路由和路由器要区分
@@ -77,7 +79,15 @@ export default [
     component:Login,
     meta:{
       isHide:true  //证明要隐藏footer
-    }
+    },
+    //路由独享守卫
+    // beforeEnter: (to, from, next) => {
+    //   if(!store.state.user.userInfo.name){
+    //     next()
+    //   }else{
+    //     next(false)
+    //   }
+    // }
   },
   {
     path:'/register',
