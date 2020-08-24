@@ -9,12 +9,28 @@ import Trade from '@/pages/Trade'
 import Pay from '@/pages/Pay'
 import PaySuccess from '@/pages/PaySuccess'
 import Center from '@/pages/Center'
+import MyOrder from '@/pages/Center/MyOrder'
+import GroupOrder from '@/pages/Center/GroupOrder'
 
 export default [
   //专门配置各种路由的地方     路由和路由器要区分
   {
     path:'/center',
-    component:Center
+    component:Center,
+    children:[
+      {
+        path:'myorder',
+        component:MyOrder
+      },
+      {
+        path:'grouporder',
+        component:GroupOrder
+      },
+      {
+        path:'',
+        redirect: 'myorder'
+      }
+    ]
   },
   {
     path:'/paysuccess',
