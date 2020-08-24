@@ -1,5 +1,11 @@
-import Home from '@/pages/Home'
-import Search from '@/pages/Search'
+// import Home from '@/pages/Home'
+//import函数： 1、把对应路径的东西最终打包成单个文件  
+            // 2、懒加载的功能：当访问对应的组件的时候，import才会调用实现懒加载
+const Home = () => import('@/pages/Home')
+
+// import Search from '@/pages/Search'
+const Search = () => import('@/pages/Search')
+
 import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Detail from '@/pages/Detail'
@@ -36,24 +42,56 @@ export default [
   },
   {
     path:'/paysuccess',
-    component:PaySuccess
+    component:PaySuccess,
+    beforeEnter: (to, from, next) => {
+      if(from.path === '/pay'){
+        next()
+      }else{
+        next(false)
+      }
+    }
   },
   {
     path:'/pay',
-    component:Pay
+    component:Pay,
+    beforeEnter: (to, from, next) => {
+      if(from.path === '/trade'){
+        next()
+      }else{
+        next(false)
+      }
+    }
+
   },
   {
     path:'/trade',
-    component:Trade
+    component:Trade,
+    beforeEnter: (to, from, next) => {
+      if(from.path === '/shopcart'){
+        next()
+      }else{
+        next(false)
+      }
+    }
+
   },
   {
-    path:'/ShopCart',
+    path:'/shopcart',
     component:ShopCart
   },
   
   {
     path:'/addcartsuccess',
-    component:AddCartSuccess
+    component:AddCartSuccess,
+    //路由独享守卫
+    beforeEnter: (to, from, next) => {
+      let skuInfo = sessionStorage.getItem('SKUINFO_KEY')
+      if(to.query.skuNum && skuInfo){
+        next()
+      }else{
+        next(false)
+      }
+    }
   },
   {
     path:'/detail/:skuId',
