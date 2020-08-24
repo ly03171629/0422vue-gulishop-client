@@ -50,7 +50,11 @@
 
               <template v-if="index === 0">
                 <!-- template这个标签不会影响我们的页面结构和css样式，可以把想要统一处理的元素用它包起来 -->
-                <td :rowspan="order.orderDetailList.length" width="8%" class="center">{{order.consignee}}</td>
+                <td
+                  :rowspan="order.orderDetailList.length"
+                  width="8%"
+                  class="center"
+                >{{order.consignee}}</td>
                 <td :rowspan="order.orderDetailList.length" width="13%" class="center">
                   <ul class="unstyled">
                     <li>总金额¥{{order.totalAmount}}</li>
@@ -73,32 +77,18 @@
         </table>
       </div>
       <div class="choose-order">
-        <div class="pagination">
-          <ul>
-            <li class="prev disabled">
-              <a href="javascript:">«上一页</a>
-            </li>
-            <li class="page actived">
-              <a href="javascript:">1</a>
-            </li>
-            <li class="page">
-              <a href="javascript:">2</a>
-            </li>
-            <li class="page">
-              <a href="javascript:">3</a>
-            </li>
-            <li class="page">
-              <a href="javascript:">4</a>
-            </li>
-
-            <li class="next disabled">
-              <a href="javascript:">下一页»</a>
-            </li>
-          </ul>
-          <div>
-            <span>&nbsp;&nbsp;&nbsp;&nbsp;共2页&nbsp;</span>
-          </div>
-        </div>
+        <el-pagination
+          background
+          @size-change="changePageSize"
+          @current-change="getMyOrderInfo"
+          :current-page="page"
+          :total="myOrderInfo.total"
+          :page-size="limit"
+          :pager-count="7"
+          :page-sizes="[3, 5, 10, 15]"
+          layout=" prev, pager, next, jumper, ->, sizes, total"
+          
+        ></el-pagination>
       </div>
     </div>
     <!--猜你喜欢-->
@@ -170,13 +160,25 @@ export default {
     this.getMyOrderInfo();
   },
   methods: {
-    async getMyOrderInfo() {
+    async getMyOrderInfo(num = 1) {
       //发请求
+      this.page = num
       const result = await this.$API.reqMyOrderInfo(this.page, this.limit);
       if (result.code === 200) {
         this.myOrderInfo = result.data;
       }
     },
+
+    // changePageNum(num){
+    //   this.page = num 
+    //   this.getMyOrderInfo();
+    // },
+
+
+    changePageSize(num){
+      this.limit = num
+      this.getMyOrderInfo();
+    }
   },
   computed: {
     myOrderList() {
