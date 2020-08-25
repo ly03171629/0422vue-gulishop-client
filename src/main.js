@@ -19,7 +19,7 @@ Vue.use(VueLazyload, { // 内部自定义了一个指令lazy
 
 
 //部分引入element-ui当中的 MessageBox, Message
-import { MessageBox, Message, Pagination} from 'element-ui';  //引入了还没注册或者声明使用
+import { MessageBox, Message, Pagination ,Button} from 'element-ui';  //引入了还没注册或者声明使用
 // 声明使用或者注册
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
@@ -27,6 +27,7 @@ Vue.prototype.$message = Message;
 
 // Vue.component(Pagination.name, Pagination);
 Vue.use(Pagination)
+Vue.use(Button)
 
 
 

@@ -87,7 +87,6 @@
           :pager-count="7"
           :page-sizes="[3, 5, 10, 15]"
           layout=" prev, pager, next, jumper, ->, sizes, total"
-          
         ></el-pagination>
       </div>
     </div>

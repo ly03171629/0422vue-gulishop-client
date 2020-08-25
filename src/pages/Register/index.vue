@@ -141,6 +141,8 @@ export default {
         } catch (error) {
           alert(error.message);
         }
+      }else{
+        this.$message.warning('验证不通过')
       }
     },
 
